@@ -41,7 +41,7 @@ iconInput.addEventListener('change', function (event) {
 // Render
 function renderFont() {
   var iconStreams
-  var curCodepoint = 0xe001
+  var curCodepoint = 0xf001
   var usedCodepoints = []
 
   while (iconList.firstChild) {
@@ -91,23 +91,19 @@ function renderFont() {
       iconStyle.innerHTML = `
       @font-face {
         font-family: '${iconForm.fontname.value}';
-        src: url('${result.urls.eot}');
-        src: url('${result.urls.eot}') format("embedded-opentype"),
-            url('${result.urls.ttf}') format("truetype"),
-            url('${result.urls.woff}') format("woff"),
-            url('${result.urls.woff2}') format("woff2"),
-            url('${result.urls.svg}') format("svg");
+        src: url('${result.urls.woff}') format("woff"),
+            url('${result.urls.woff2}') format("woff2");
         font-weight: normal;
         font-style: normal;
       }
 
       .font_preview {
-        font-family: ${iconForm.fontname.value};
+        font-family: ${iconForm.fontname.value} , 'Courier New' , monospace;
       }
     `
 
       iconPreview.innerHTML = iconStreams.reduce(function (a, b) {
-        return `${a}<span>${b.metadata?.unicode[0]}<small>${b.metadata?.code}</small></span>`
+        return `${a}<span>${b.metadata?.unicode[0]}<small>&amp;#x${b.metadata?.code};</small></span>`
       }, '')
 
       if (saveButton.href) {
